@@ -1,0 +1,8 @@
+import requests
+
+
+
+main_url='https://stackoverflow.com/questions'
+source = requests.status_codes(main_url)
+
+print(str(source))
