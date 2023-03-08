@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 main_url = 'https://www.kivano.kg/'
-response = requests.status_code(main_url)
+response = requests.get(main_url)
 # print(dir(response))
 # print(response.text) # html - str
 
@@ -28,7 +28,7 @@ print(response)
 soup = BeautifulSoup(response.text,'lxml')
 
 product_card = soup.find('div',{'class':'product-view'})
-# print(product_card)
+print(product_card)
 
 title = product_card.find('h1').text
 # print(title)

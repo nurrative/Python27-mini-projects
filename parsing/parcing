@@ -1,0 +1,35 @@
+import json
+import requests
+from bs4 import BeautifulSoup as BS
+
+main_url = 'https://www.ts.kg/selection/top_2022_anime'
+
+def get_soup(url:str) -> BS:
+    response = requests.get(url)
+    soup = BS(response.text, 'lxml')
+    return soup
+
+def get_product_info(product:BS) -> dict:
+    title = product.find('div', {'class':'selection-show-text'}).find('h4').text
+    image = product.find('img').get('src')
+    return {'title':title, 'image': 'https://www.ts.kg' + image}
+
+def get_all_products_from_page(url:str) -> list:
+    res = []
+    soup = get_soup(url)
+    box = soup.find('div', {'class':'container'})
+    products = box.find_all('div', {'class':'row selection-show'})
+    for product in products:
+        product_info = get_product_info(product)
+        res.append(product_info)
+    return res
+
+def write_to_json(data:dict):
+    with open('anime_2022.json', 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False)
+
+write_to_json(get_all_products_from_page(main_url))
+
+
+
+    

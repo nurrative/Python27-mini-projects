@@ -35,6 +35,7 @@ def write_to_json(data:dict):
 def get_last_page(url:str)->int:
     soup = get_soup(url)
     last = soup.find('li',{'class':'last'})
+    
     return int(last.text)
 
 def main():
